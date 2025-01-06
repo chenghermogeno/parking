@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { formatPeso } from "@/lib/format";
 
 export default function ParkingCard({
   name,
@@ -15,7 +16,7 @@ export default function ParkingCard({
       <div className="relative h-[160px]">
         <Image src={image} alt={name} fill className="object-cover" />
         <div className="absolute bottom-2 left-2 bg-black/75 text-white px-2 py-1 rounded">
-          ${price}/hr
+          {formatPeso(price)}/hr
         </div>
       </div>
       <div className="p-3">
