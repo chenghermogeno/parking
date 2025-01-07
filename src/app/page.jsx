@@ -73,7 +73,7 @@ export default function Home() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
           <div>
-            <img src="/logo.png" alt="ParkEasy Logo" className="h-8" />
+            <img src="/logo.png" alt="ParkEase Logo" className="h-8" />
           </div>
           <div className="relative">
             <button

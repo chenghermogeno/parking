@@ -55,6 +55,11 @@ function NavigatePage() {
             <p className="text-sm text-gray-400">10:AM to 2:00 PM</p>
           </div>
         </Card>
+        <div className="p-4 text-center">
+          <p className="text-sm text-gray-400">
+            Click next to proceed with the reservation.
+          </p>
+        </div>
         <button
           onClick={() => (window.location.href = "/payment")}
           className="w-full bg-[#7B6EF6] hover:bg-[#7B6EF6]/90 text-white text-normal font-semibold py-3 px-6 rounded-lg"

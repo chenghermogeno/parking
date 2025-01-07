@@ -28,7 +28,7 @@ export default function SuccessPage() {
           href="/bookings"
           className="inline-block text-blue-600 font-normal hover:underline"
         >
-          Go to my reservation
+          View Parking Ticket
         </a>
       </div>
     </div>
