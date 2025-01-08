@@ -11,12 +11,12 @@ export default function PaymentMethod() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container px-4 sm:px-6 flex h-14 items-center max-w-md mx-auto bg-[#1C1B4E]">
+        <div className="container p-4 flex h-14 items-center mx-auto bg-[#1C1B4E]">
           <Button
             variant="ghost"
             size="icon"
             className="absolute left-4 sm:left-6"
-            onClick={() => router.push("/navigate")}
+            onClick={() => router.push("/review-booking")}
           >
             <ArrowLeft className="h-4 w-4 text-white" />
             <span className="sr-only">Go back</span>

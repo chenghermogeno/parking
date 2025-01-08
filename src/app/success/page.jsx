@@ -25,7 +25,7 @@ export default function SuccessPage() {
           Please check your email for reservation receipt
         </p>
         <a
-          href="/bookings"
+          href="/parking-ticket"
           className="inline-block text-blue-600 font-normal hover:underline"
         >
           View Parking Ticket

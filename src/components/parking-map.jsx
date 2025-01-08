@@ -1,65 +1,223 @@
 "use client";
 
+import { ChevronLeft, Info } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useState, useEffect } from "react";
 
-export function ParkingMap({ selectedSlot, layout }) {
+export default function ParkingMap() {
+  const [parkingRows, setParkingRows] = useState({
+    top: [],
+    middle: [],
+    bottom: [],
+  });
+  const [filter, setFilter] = useState("all");
+
+  const statusColors = {
+    available: "bg-green-400",
+    occupied: "bg-red-600",
+    reserved: "bg-yellow-200",
+  };
+
+  useEffect(() => {
+    const generateRandomSpots = (rowId) => {
+      return Array.from({ length: 10 }, (_, index) => {
+        const statuses = Object.keys(statusColors);
+        const randomStatus =
+          statuses[Math.floor(Math.random() * statuses.length)];
+        return {
+          id: `${rowId}${index + 1}`,
+          status: randomStatus,
+          color: statusColors[randomStatus],
+        };
+      });
+    };
+
+    setParkingRows({
+      top: generateRandomSpots("E"),
+      middle: generateRandomSpots("C"),
+      bottom: generateRandomSpots("A"),
+    });
+  }, []);
+
+  const getSpotStyle = (color) => {
+    return cn(
+      "aspect-[2/3] rounded flex items-center justify-center text-sm font-medium hover:opacity-90 transition-opacity",
+      color
+    );
+  };
+
+  const countAvailableSpots = () => {
+    const allSpots = [
+      ...parkingRows.top,
+      ...parkingRows.middle,
+      ...parkingRows.bottom,
+    ];
+    return allSpots.filter((spot) => spot.status === "available").length;
+  };
+
+  const totalSpots = 30; // 10 spots per row, 3 rows
+  const availableSpots = countAvailableSpots();
+
+  const filterSpots = (spots) => {
+    if (filter === "all") return spots;
+    return spots.filter((spot) => spot.status === filter);
+  };
+
   return (
-    <div className="relative w-full aspect-[5/4] bg-gray-100 rounded-lg p-4">
-      {/* Left row of parking slots */}
-      <div className="absolute left-4 top-4 space-y-2">
-        {[1, 2, 3, 4].map((slot) => (
-          <div
-            key={`left-${slot}`}
-            className={cn(
-              "w-20 h-8 bg-gray-200 rounded",
-              selectedSlot === `left-${slot}` && "bg-purple-500"
-            )}
-          />
-        ))}
-      </div>
+    <div className="min-h-screen bg-gray-100">
+      <div className="max-w-full mx-auto bg-white min-h-screen flex flex-col">
+        {/* Header */}
 
-      {/* Right row of parking slots */}
-      <div className="absolute right-4 top-4 space-y-2">
-        {[1, 2, 3, 4].map((slot) => (
-          <div
-            key={`right-${slot}`}
-            className={cn(
-              "w-20 h-8 bg-gray-200 rounded",
-              selectedSlot === `right-${slot}` && "bg-purple-500"
-            )}
-          />
-        ))}
-      </div>
+        {/* Legend and Filter */}
+        <div className="p-4 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sticky top-[72px] bg-white z-10 border-b">
+          <div className="flex justify-center space-x-4 text-sm">
+            <div className="flex items-center">
+              <div className="w-4 h-4 bg-green-400 rounded mr-2"></div>
+              <span>Available</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-4 h-4 bg-red-600 rounded mr-2"></div>
+              <span>Occupied</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-4 h-4 bg-yellow-200 rounded mr-2"></div>
+              <span>Reserved</span>
+            </div>
+          </div>
+          <div className="flex space-x-2">
+            <Button
+              variant={filter === "all" ? "default" : "outline"}
+              onClick={() => setFilter("all")}
+              size="sm"
+            >
+              All
+            </Button>
+            <Button
+              variant={filter === "available" ? "default" : "outline"}
+              onClick={() => setFilter("available")}
+              size="sm"
+            >
+              Available
+            </Button>
+            <Button
+              variant={filter === "occupied" ? "default" : "outline"}
+              onClick={() => setFilter("occupied")}
+              size="sm"
+            >
+              Occupied
+            </Button>
+            <Button
+              variant={filter === "reserved" ? "default" : "outline"}
+              onClick={() => setFilter("reserved")}
+              size="sm"
+            >
+              Reserved
+            </Button>
+          </div>
+        </div>
 
-      {/* Bottom row of parking slots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-        {[1, 2, 3].map((slot) => (
-          <div
-            key={`bottom-${slot}`}
-            className={cn(
-              "w-8 h-20 bg-gray-200 rounded",
-              selectedSlot === `bottom-${slot}` && "bg-purple-500"
-            )}
-          />
-        ))}
-      </div>
+        {/* Parking Grid */}
+        <div className="flex-1 p-4 overflow-x-auto">
+          <div className="min-w-[800px]">
+            <div className="bg-gray-100 rounded-lg p-6 space-y-4">
+              {/* Top Row */}
+              <div className="grid grid-cols-10 gap-2">
+                {filterSpots(parkingRows.top).map((spot) => (
+                  <button
+                    key={spot.id}
+                    className={cn(
+                      getSpotStyle(spot.color),
+                      "w-16 h-24 text-lg"
+                    )}
+                    aria-label={`Parking spot ${spot.id} - ${spot.status}`}
+                  >
+                    {spot.id}
+                  </button>
+                ))}
+              </div>
 
-      {/* Navigation path */}
-      <svg
-        className="absolute inset-0 w-full h-full"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-      >
-        <path
-          d="M 50 90 L 50 50 L 80 50"
-          stroke="#7B6EF6"
-          strokeWidth="2"
-          fill="none"
-          strokeDasharray="4 2"
-        />
-        {/* Navigation point */}
-        <circle cx="80" cy="50" r="3" fill="#7B6EF6" />
-      </svg>
+              {/* First Pathway */}
+              <div className="h-12 bg-gray-200 rounded flex items-center justify-between px-4 text-sm text-gray-600">
+                <span>⟵ Entry</span>
+                <span>Exit ⟶</span>
+              </div>
+
+              {/* Middle Row */}
+              <div className="grid grid-cols-10 gap-2">
+                {filterSpots(parkingRows.middle).map((spot) => (
+                  <button
+                    key={spot.id}
+                    className={cn(
+                      getSpotStyle(spot.color),
+                      "w-16 h-24 text-lg"
+                    )}
+                    aria-label={`Parking spot ${spot.id} - ${spot.status}`}
+                  >
+                    {spot.id}
+                  </button>
+                ))}
+              </div>
+
+              {/* Second Pathway */}
+              <div className="h-12 bg-gray-200 rounded flex items-center justify-between px-4 text-sm text-gray-600">
+                <span>⟵ Entry</span>
+                <span>Exit ⟶</span>
+              </div>
+
+              {/* Bottom Row */}
+              <div className="grid grid-cols-10 gap-2">
+                {filterSpots(parkingRows.bottom).map((spot) => (
+                  <button
+                    key={spot.id}
+                    className={cn(
+                      getSpotStyle(spot.color),
+                      "w-16 h-24 text-lg"
+                    )}
+                    aria-label={`Parking spot ${spot.id} - ${spot.status}`}
+                  >
+                    {spot.id}
+                  </button>
+                ))}
+              </div>
+
+              {/* Elevator and Stairs */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="h-12 bg-gray-200 rounded flex items-center justify-center text-sm text-gray-600">
+                  Elevator
+                </div>
+                <div className="h-12 bg-gray-200 rounded flex items-center justify-center text-sm text-gray-600">
+                  Stairs
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="p-4 mb-8 border-t bg-[#1C1B4E] text-white sticky bottom-0 z-10">
+          <div className="flex justify-between items-center ">
+            <div className="space-y-1">
+              <h3 className="font-medium">Available Spots</h3>
+              <div className="flex gap-2">
+                <Badge variant="secondary" className="rounded-full">
+                  {availableSpots}/{totalSpots} spots
+                </Badge>
+                <Badge variant="secondary" className="rounded-full">
+                  {Math.round((availableSpots / totalSpots) * 100)}%
+                </Badge>
+              </div>
+            </div>
+            <Button
+              onClick={() => (window.location.href = "/review-booking")}
+              className="bg-[#7B6EF6] hover:bg-[#7B6EF6]/90 text-white px-12"
+            >
+              Reserve
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
