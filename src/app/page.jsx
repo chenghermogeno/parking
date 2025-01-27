@@ -73,7 +73,7 @@ export default function Home() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
           <div>
-            <img src="/logo.png" alt="ParkEase Logo" className="h-8" />
+            <img src="/logo.png" alt="ParkEase" className="h-8" />
           </div>
           <div className="relative">
             <button
@@ -151,7 +151,7 @@ export default function Home() {
           <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4">
             <ParkingCard
               name="Uptown Mall"
-              image="/placeholder.svg?height=200&width=300"
+              image="/uptown-mall.jpg"
               price={50}
               distance={0.31}
               rating={4.5}
@@ -159,7 +159,7 @@ export default function Home() {
             />
             <ParkingCard
               name="Uptown Parade"
-              image="/placeholder.svg?height=200&width=300"
+              image="/uptown-parade.png"
               price={50}
               distance={1.2}
               rating={4}

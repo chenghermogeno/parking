@@ -32,7 +32,7 @@ export default function BookingPage() {
       date: "Friday, October 21",
       time: "8:00 AM - 4:00 PM",
       price: "₱45",
-      status: "Canceled",
+      status: "Cancelled",
       image: "/placeholder.svg?height=80&width=80",
     },
     {
@@ -50,7 +50,7 @@ export default function BookingPage() {
       date: "Wednesday, October 19",
       time: "8:00 AM - 12:00 PM",
       price: "₱34",
-      status: "Canceled",
+      status: "Cancelled",
       image: "/placeholder.svg?height=80&width=80",
     },
     {

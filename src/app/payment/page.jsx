@@ -4,23 +4,17 @@ import { ArrowLeft } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+
+import Link from "next/link";
 
 export default function PaymentMethod() {
-  const router = useRouter();
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container p-4 flex h-14 items-center mx-auto bg-[#1C1B4E]">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute left-4 sm:left-6"
-            onClick={() => router.push("/review-booking")}
-          >
-            <ArrowLeft className="h-4 w-4 text-white" />
-            <span className="sr-only">Go back</span>
-          </Button>
+          <Link href="/navigate" className="absolute left-4 sm:left-6">
+            <ArrowLeft className="h-4 w-4 text-white " />
+          </Link>
           <h1 className="text-lg font-semibold flex-1 text-center text-white">
             Payment Method
           </h1>
@@ -70,9 +64,9 @@ export default function PaymentMethod() {
               className="w-full justify-start h-14 text-left"
             >
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 relative">
+                <div className="w-10 h-10 relative">
                   <Image
-                    src="/placeholder.svg"
+                    src="/gcash-logo.png"
                     alt=""
                     fill
                     className="object-contain"
@@ -86,9 +80,9 @@ export default function PaymentMethod() {
               className="w-full justify-start h-14 text-left"
             >
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 relative">
+                <div className="w-20 h-20 relative">
                   <Image
-                    src="/placeholder.svg"
+                    src="/instapay.png"
                     alt=""
                     fill
                     className="object-contain"
@@ -99,13 +93,11 @@ export default function PaymentMethod() {
             </Button>
           </div>
         </section>
-
-        <Button
-          className="w-full mt-6 bg-[#7B6EF6] hover:bg-[#7B6EF6]/90 text-white text-base font-semibold py-6 px-6 rounded-lg"
-          onClick={() => router.push("/success")}
-        >
-          Proceed to Payment
-        </Button>
+        <Link href="/review-booking">
+          <Button className="w-full mt-6 bg-[#7B6EF6] hover:bg-[#7B6EF6]/90 text-white text-base font-semibold py-6 px-6 rounded-lg">
+            Proceed to Payment
+          </Button>
+        </Link>
       </main>
     </div>
   );

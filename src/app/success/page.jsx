@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function SuccessPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
@@ -24,12 +26,12 @@ export default function SuccessPage() {
         <p className="text-gray-600 mb-8">
           Please check your email for reservation receipt
         </p>
-        <a
+        <Link
           href="/parking-ticket"
           className="inline-block text-blue-600 font-normal hover:underline"
         >
           View Parking Ticket
-        </a>
+        </Link>
       </div>
     </div>
   );

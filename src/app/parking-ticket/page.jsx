@@ -4,10 +4,9 @@ import { ChevronLeft, Share2, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ParkingTicket() {
-  const router = useRouter();
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="max-w-md mx-auto bg-white min-h-screen">
@@ -91,13 +90,11 @@ export default function ParkingTicket() {
 
         {/* Bottom Button */}
         <div className="p-4">
-          <Button
-            className="w-full text-base md:text-lg py-3 md:py-4 bg-[#7B6EF6] hover:bg-[#7B6EF6]/90 text-white"
-            size="lg"
-            onClick={() => router.push("/bookings")}
-          >
-            Let's Go To Bookings
-          </Button>
+          <Link href="/bookings">
+            <Button className="w-full mt-6 bg-[#7B6EF6] hover:bg-[#7B6EF6]/90 text-white text-base font-semibold py-6 px-6 rounded-lg">
+              Go to Bookings
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

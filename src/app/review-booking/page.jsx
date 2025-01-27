@@ -5,23 +5,17 @@ import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+
+import Link from "next/link";
 
 export default function ReviewBooking() {
-  const router = useRouter();
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container p-4 flex h-14 items-center mx-auto bg-[#1C1B4E]">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute left-4 sm:left-6"
-            onClick={() => router.push("/navigate")}
-          >
-            <ArrowLeft className="h-4 w-4 text-white" />
-            <span className="sr-only">Go back</span>
-          </Button>
+          <Link href="/payment" className="absolute left-4 sm:left-6">
+            <ArrowLeft className="h-4 w-4 text-white " />
+          </Link>
           <h1 className="text-lg font-semibold flex-1 text-center text-white">
             Review Booking
           </h1>
@@ -72,7 +66,7 @@ export default function ReviewBooking() {
               <div className="flex items-center gap-2 md:gap-3">
                 <div className="w-12 h-8 md:w-16 md:h-10 relative">
                   <Image
-                    src="/placeholder.svg?height=40&width=64"
+                    src="/gcash-logo.png"
                     alt=""
                     fill
                     className="object-contain"
@@ -112,13 +106,11 @@ export default function ReviewBooking() {
 
           {/* Confirm Button */}
           <div className="mt-6 md:mt-8">
-            <Button
-              className="w-full text-base md:text-lg py-3 md:py-4 bg-[#7B6EF6] hover:bg-[#7B6EF6]/90 text-white"
-              size="lg"
-              onClick={() => router.push("/payment")}
-            >
-              Confirm
-            </Button>
+            <Link href="/success">
+              <Button className="w-full mt-6 bg-[#7B6EF6] hover:bg-[#7B6EF6]/90 text-white text-base font-semibold py-6 px-6 rounded-lg">
+                Confirm
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

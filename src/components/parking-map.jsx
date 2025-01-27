@@ -1,10 +1,10 @@
 "use client";
 
-import { ChevronLeft, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function ParkingMap() {
   const [parkingRows, setParkingRows] = useState({
@@ -13,6 +13,7 @@ export default function ParkingMap() {
     bottom: [],
   });
   const [filter, setFilter] = useState("all");
+  const [selectedSpot, setSelectedSpot] = useState(null); // Track selected spot
 
   const statusColors = {
     available: "bg-green-400",
@@ -63,6 +64,14 @@ export default function ParkingMap() {
   const filterSpots = (spots) => {
     if (filter === "all") return spots;
     return spots.filter((spot) => spot.status === filter);
+  };
+
+  const handleSpotClick = (spot) => {
+    if (spot.status === "available") {
+      setSelectedSpot(spot.id); // Set selected spot if it's available
+    } else {
+      setSelectedSpot(null); // Clear selection for other statuses
+    }
   };
 
   return (
@@ -132,18 +141,14 @@ export default function ParkingMap() {
                       "w-16 h-24 text-lg"
                     )}
                     aria-label={`Parking spot ${spot.id} - ${spot.status}`}
+                    onClick={() => handleSpotClick(spot)}
                   >
                     {spot.id}
                   </button>
                 ))}
               </div>
 
-              {/* First Pathway */}
-              <div className="h-12 bg-gray-200 rounded flex items-center justify-between px-4 text-sm text-gray-600">
-                <span>⟵ Entry</span>
-                <span>Exit ⟶</span>
-              </div>
-
+              {/* Other Rows */}
               {/* Middle Row */}
               <div className="grid grid-cols-10 gap-2">
                 {filterSpots(parkingRows.middle).map((spot) => (
@@ -154,16 +159,11 @@ export default function ParkingMap() {
                       "w-16 h-24 text-lg"
                     )}
                     aria-label={`Parking spot ${spot.id} - ${spot.status}`}
+                    onClick={() => handleSpotClick(spot)}
                   >
                     {spot.id}
                   </button>
                 ))}
-              </div>
-
-              {/* Second Pathway */}
-              <div className="h-12 bg-gray-200 rounded flex items-center justify-between px-4 text-sm text-gray-600">
-                <span>⟵ Entry</span>
-                <span>Exit ⟶</span>
               </div>
 
               {/* Bottom Row */}
@@ -176,47 +176,34 @@ export default function ParkingMap() {
                       "w-16 h-24 text-lg"
                     )}
                     aria-label={`Parking spot ${spot.id} - ${spot.status}`}
+                    onClick={() => handleSpotClick(spot)}
                   >
                     {spot.id}
                   </button>
                 ))}
-              </div>
-
-              {/* Elevator and Stairs */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="h-12 bg-gray-200 rounded flex items-center justify-center text-sm text-gray-600">
-                  Elevator
-                </div>
-                <div className="h-12 bg-gray-200 rounded flex items-center justify-center text-sm text-gray-600">
-                  Stairs
-                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="p-4 mb-8 border-t bg-[#1C1B4E] text-white sticky bottom-0 z-10">
-          <div className="flex justify-between items-center ">
-            <div className="space-y-1">
-              <h3 className="font-medium">Available Spots</h3>
-              <div className="flex gap-2">
+        {selectedSpot && (
+          <div className="p-4 mb-8 border-t bg-[#1C1B4E] text-white sticky bottom-0 z-10">
+            <div className="flex justify-between items-center ">
+              <div className="space-y-1">
+                <h3 className="font-medium">Selected Spot</h3>
                 <Badge variant="secondary" className="rounded-full">
-                  {availableSpots}/{totalSpots} spots
-                </Badge>
-                <Badge variant="secondary" className="rounded-full">
-                  {Math.round((availableSpots / totalSpots) * 100)}%
+                  {selectedSpot}
                 </Badge>
               </div>
+              <Link href="/payment">
+                <Button className="bg-[#7B6EF6] hover:bg-[#7B6EF6]/90 text-white px-12">
+                  Reserve
+                </Button>
+              </Link>
             </div>
-            <Button
-              onClick={() => (window.location.href = "/review-booking")}
-              className="bg-[#7B6EF6] hover:bg-[#7B6EF6]/90 text-white px-12"
-            >
-              Reserve
-            </Button>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
